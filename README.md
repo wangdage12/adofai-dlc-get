@@ -18,3 +18,19 @@
 如有最新版本dlc文件，请帮忙提交
 
 **如果你们需要的话，我会建立一个仓库作为修改后的Assembly-CSharp.dll和其他资源的存储库**
+
+**如果无法运行：**  
+下载这几个文件：  
+http://f1.wdg.cloudns.ch/adofai/neocosmos_assets_all.bundle  
+http://f1.wdg.cloudns.ch/adofai/64b0239cbb1b5026aca97cb135062056_unitybuiltinshaders.bundle  
+http://f1.wdg.cloudns.ch/adofai/neocosmos_scenes_all.bundle  
+
+游戏根目录下新建`Bundles`文件夹，放入下载的文件  
+
+下载：  
+http://f1.wdg.cloudns.ch/adofai/DLL/Assembly-CSharp.dll.v2.9.5  
+重命名为`Assembly-CSharp.dll`  
+进入：  
+`\A Dance of Fire and Ice_Data\Managed`  
+备份`Assembly-CSharp.dll`后删除`Assembly-CSharp.dll`  
+将刚才下载的文件放入该目录内，启动游戏即可  
