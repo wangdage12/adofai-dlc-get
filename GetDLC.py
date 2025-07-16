@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 # 配置 coloredlogs
 coloredlogs.install(level='DEBUG', logger=logger)
 
-APP_VERSION = '1.0.2'  # 应用版本
+APP_VERSION = '1.0.3'  # 应用版本
 GAME_FILE = 'A Dance of Fire and Ice.exe'  # 游戏主程序文件名
 
 logger.info(f"工具版本：{APP_VERSION}")
@@ -85,7 +85,7 @@ def read_config() -> dict:
     """
     ok = False
     try:
-        config = json.loads(requests.get("http://124.221.67.43/adofai/config.json").text)
+        config = json.loads(requests.get("http://f3.wdg.cloudns.ch/adofai/config.json").text)
         ok = True
     except requests.RequestException as e:
         logger.error(f"获取配置文件失败，错误信息：{e}")
@@ -100,7 +100,7 @@ def read_config() -> dict:
             
     if not ok:
         try:
-            config = json.loads(requests.get("http://f2.wdg.cloudns.ch/adofai/config.json").text)
+            config = json.loads(requests.get("http://f4.wdg.cloudns.ch/adofai/config.json").text)
             ok = True
         except requests.RequestException as e:
             logger.error(f"获取备用配置文件失败，错误信息：{e}")

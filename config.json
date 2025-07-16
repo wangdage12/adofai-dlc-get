@@ -18,8 +18,8 @@
   },
   "downloadServer": [
     "http://f1.wdg.cloudns.ch/adofai/",
-    "http://f2.wdg.cloudns.ch/adofai/",
-    "http://124.221.67.43/adofai/"
+    "http://f3.wdg.cloudns.ch/adofai/",
+    "http://f4.wdg.cloudns.ch/adofai/"
   ],
   "downloadTest": [
     { "name": "香港TEST1", "url": "http://bottool.wdg.cloudns.ch/" },
@@ -41,6 +41,6 @@
       "url": "http://f3.wdg.cloudns.ch/adofai/neocosmos_scenes_all.bundle"
     }
   ],
-  "speedTest": true,
-  "msg": "\n1.0.1已发布，下载链接不变，或者通过该链接下载：\nhttp://124.221.67.43/adofai/GetDLC.exe\n"
+  "speedTest": false,
+  "msg": "\n1.0.3已发布，下载链接不变，或者通过该链接下载：\nhttp://f4.wdg.cloudns.ch/GetDLC.exe\n"
 }
