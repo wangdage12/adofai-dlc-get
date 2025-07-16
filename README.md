@@ -20,6 +20,9 @@
 **如果你们需要的话，我会建立一个仓库作为修改后的Assembly-CSharp.dll和其他资源的存储库**
 
 **如果无法运行：**  
+
+> 注意:如果下载服务器失效,可以将域名前面的`f1`换为: `f3`或`f4`
+
 下载这几个文件：  
 http://f1.wdg.cloudns.ch/adofai/neocosmos_assets_all.bundle  
 http://f1.wdg.cloudns.ch/adofai/64b0239cbb1b5026aca97cb135062056_unitybuiltinshaders.bundle  
@@ -28,6 +31,9 @@ http://f1.wdg.cloudns.ch/adofai/neocosmos_scenes_all.bundle
 游戏根目录下新建`Bundles`文件夹，放入下载的文件  
 
 下载：  
+
+> 注意:按照你的游戏版本修改下载链接后面的版本号,例如*2.9.5*是`Assembly-CSharp.dll.v2.9.5`,*2.8.1*是`Assembly-CSharp.dll.v2.8.1`
+
 http://f1.wdg.cloudns.ch/adofai/DLL/Assembly-CSharp.dll.v2.9.5  
 重命名为`Assembly-CSharp.dll`  
 进入：  
