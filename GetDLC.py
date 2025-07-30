@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 # 配置 coloredlogs
 coloredlogs.install(level='DEBUG', logger=logger)
 
-APP_VERSION = '1.0.3'  # 应用版本
+APP_VERSION = '1.0.4'  # 应用版本
 GAME_FILE = 'A Dance of Fire and Ice.exe'  # 游戏主程序文件名
 
 logger.info(f"工具版本：{APP_VERSION}")
@@ -76,38 +76,33 @@ def Wjson(json_file, data) -> None:
     with open(json_file, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
-# 读取配置文件
-def read_config() -> dict:
-    """从服务器读取配置文件
+CONFIG_URLS = [
+    "http://server.wdg.cloudns.ch:8002/adofai/config.json",
+    "http://f3.wdg.cloudns.ch/adofai/config.json",
+    "http://f1.wdg.cloudns.ch/adofai/config.json",
+    "http://f4.wdg.cloudns.ch/adofai/config.json",
+]
 
-    Returns:
-        dict: 读取的配置数据
+def read_config() -> dict:
     """
-    ok = False
-    try:
-        config = json.loads(requests.get("http://f3.wdg.cloudns.ch/adofai/config.json").text)
-        ok = True
-    except requests.RequestException as e:
-        logger.error(f"获取配置文件失败，错误信息：{e}")
-        sentry_logger.error('获取配置文件失败', version=APP_VERSION, error=str(e))
-    if not ok:
+    从服务器读取配置文件
+    Returns:
+        dict: 读取的配置数据，如果都失败返回空字典
+    """
+    for url in CONFIG_URLS:
         try:
-            config = json.loads(requests.get("http://f1.wdg.cloudns.ch/adofai/config.json").text)
-            ok = True
-        except requests.RequestException as e: 
-            logger.error(f"获取备用配置文件失败，错误信息：{e}")
-            sentry_logger.error('获取备用配置文件失败', version=APP_VERSION, error=str(e))
-            
-    if not ok:
-        try:
-            config = json.loads(requests.get("http://f4.wdg.cloudns.ch/adofai/config.json").text)
-            ok = True
+            response = requests.get(url, timeout=5)
+            response.raise_for_status()  # 状态码 >=400 会抛异常
+            config = response.json()
+            logger.info(f"成功从 {url} 读取配置")
+            return config
         except requests.RequestException as e:
-            logger.error(f"获取备用配置文件失败，错误信息：{e}")
-            sentry_logger.error('获取备用配置文件失败', version=APP_VERSION, error=str(e))
-            logger.error("请检查网络连接或联系开发者")
-        
-    return config
+            logger.error(f"获取配置文件失败: {url}, 错误: {e} ，请稍等以便自动尝试其他服务器")
+        except json.JSONDecodeError as e:
+            logger.error(f"解析配置文件 JSON 出错: {url}, 错误: {e} ，请稍等以便自动尝试其他服务器")
+
+    logger.error("所有配置文件都获取失败，请检查网络或联系开发者，或者尝试在windows设置中更改DNS为8.8.8.8 备用DNS为114.114.114.114")
+    return {}
 
 def download_file(url, output_path) -> None:
     """下载文件，显示下载进度条
@@ -190,7 +185,7 @@ def test_download_speed(url, duration=10):
     return elapsed, speed_mbps , None
 
 if cfg['speedTest']:
-    colorprint("注意：近期上海服务器将停用，其他服务器均为国外服务器，部分地区可能无法连接\n我们需要收集各地区的下载服务器连接情况，邀请你进行速度测试\n速度测试将收集你的ip和测试报告，最多需要2分钟并消耗最多1GB流量\n输入y并回车开始测试，直接回车跳过测试",color='2')
+    colorprint("注意：我们需要收集各地区的下载服务器连接情况，邀请你进行速度测试\n速度测试将收集你的ip和测试报告，最多需要2分钟并消耗最多1GB流量\n输入y并回车开始测试，直接回车跳过测试",color='2')
     input_str = input("是否开始速度测试？(y/n): ").strip().lower()
     speedTestText=""""""# 速度测试结果
     if input_str == 'y':
