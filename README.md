@@ -2,6 +2,7 @@
 获取A Dance of Fire and Ice中的dlc文件的脚本  
 
 > 本工具仅用来学习研究adofai中的dlc文件，使用该脚本下载的dlc文件仅共学习使用，作为其他用途使用的后果自负  
+> 我的博客中有关于该工具的贴子，可以在这里查看：http://server.wdg.cloudns.ch:8088/  
 
 注意：你需要有游戏本体才能使用
 
@@ -22,6 +23,7 @@
 **如果无法运行：**  
 
 > 注意:如果下载服务器失效,可以将域名前面的`f1`换为: `f3`或`f4`
+> 自建ipv6服务器，首选这个：http://server.wdg.cloudns.ch:8002/adofai/
 
 下载这几个文件：  
 http://f1.wdg.cloudns.ch/adofai/neocosmos_assets_all.bundle  
