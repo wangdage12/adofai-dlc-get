@@ -17,30 +17,20 @@
     ]
   },
   "downloadServer": [
+    "http://server.wdg.cloudns.ch:8002/adofai/",
     "http://f1.wdg.cloudns.ch/adofai/",
     "http://f3.wdg.cloudns.ch/adofai/",
     "http://f4.wdg.cloudns.ch/adofai/"
   ],
   "downloadTest": [
-    { "name": "香港TEST1", "url": "http://bottool.wdg.cloudns.ch/" },
-    { "name": "香港文件服务器1(300M)", "url": "http://f1.wdg.cloudns.ch/" },
-    { "name": "香港文件服务器2(备用10M)", "url": "http://f2.wdg.cloudns.ch/" },
-    { "name": "香港文件服务器3(评估测试)", "url": "http://f3.wdg.cloudns.ch/" }
+    { "name": "自建ipv6服务器", "url": "http://server.wdg.cloudns.ch:8002/" }
   ],
   "downloadSpeedTest": [
     {
-      "name": "香港文件服务器1(300M)",
-      "url": "http://f1.wdg.cloudns.ch/adofai/neocosmos_scenes_all.bundle"
-    },
-    {
-      "name": "香港文件服务器2(备用10M)",
-      "url": "http://f2.wdg.cloudns.ch/adofai/neocosmos_scenes_all.bundle"
-    },
-    {
-      "name": "香港文件服务器3(评估测试)",
-      "url": "http://f3.wdg.cloudns.ch/adofai/neocosmos_scenes_all.bundle"
+      "name": "自建ipv6服务器",
+      "url": "http://server.wdg.cloudns.ch:8002/adofai/neocosmos_scenes_all.bundle"
     }
   ],
-  "speedTest": false,
-  "msg": "\n1.0.3已发布，下载链接不变，或者通过该链接下载：\nhttp://f4.wdg.cloudns.ch/GetDLC.exe\n"
+  "speedTest": true,
+  "msg": "\n1.0.4已发布，下载链接不变，或者通过以下链接下载：\nhttp://f4.wdg.cloudns.ch/GetDLC.exe\nhttp://server.wdg.cloudns.ch:8002/GetDLC.exe\n"
 }
