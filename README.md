@@ -31,6 +31,7 @@ http://f1.wdg.cloudns.ch/adofai/64b0239cbb1b5026aca97cb135062056_unitybuiltinsha
 http://f1.wdg.cloudns.ch/adofai/neocosmos_scenes_all.bundle  
 
 游戏根目录下新建`Bundles`文件夹，放入下载的文件  
+**2.9.5需要创建`NeoCosmos\StandaloneWindows64`两个文件夹，并将dlc文件放入`StandaloneWindows64`中**  
 
 下载：  
 
