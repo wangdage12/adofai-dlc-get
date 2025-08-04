@@ -1,2 +1,0 @@
-C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\bin\Release\net8.0-windows\publish\win-x64\adofai-dlc-get-gui.pdb
-C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\bin\Release\net8.0-windows\publish\win-x64\adofai-dlc-get-gui.exe
