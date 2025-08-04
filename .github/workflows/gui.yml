@@ -1,0 +1,32 @@
+name: Build C# Windows App(adofai-dlc-get-gui)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    # 检查出代码
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # 设置.NET环境
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '8.0' # 或者你项目使用的其他.NET版本
+
+    # 恢复依赖（指定项目路径）
+    - name: Restore dependencies
+      run: dotnet restore Settings/Settings/Settings.csproj
+
+    # 编译项目（指定项目路径）
+    - name: Build project
+      run: dotnet build Settings/Settings/Settings.csproj --configuration Release --no-restore
