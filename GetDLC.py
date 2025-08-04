@@ -15,6 +15,7 @@ import logging
 import coloredlogs
 import time
 import sys
+import argparse
 from tqdm import tqdm
 from colorama import init, Fore, Back, Style
 from sentry_sdk import logger as sentry_logger
@@ -24,7 +25,7 @@ logger = logging.getLogger(__name__)
 # 配置 coloredlogs
 coloredlogs.install(level='DEBUG', logger=logger)
 
-APP_VERSION = '1.0.4'  # 应用版本
+APP_VERSION = '2.0.0'  # 应用版本
 GAME_FILE = 'A Dance of Fire and Ice.exe'  # 游戏主程序文件名
 
 logger.info(f"工具版本：{APP_VERSION}")
@@ -32,6 +33,24 @@ logger.info(f"工具版本：{APP_VERSION}")
 sentry_logger.info('工具启动',version=APP_VERSION)
 
 print("本工具仅用来学习研究adofai中的dlc文件，使用该脚本下载的dlc文件仅共学习使用，作为其他用途使用的后果自负\n官方仓库：https://github.com/wangdage12/adofai-dlc-get")
+
+parser = argparse.ArgumentParser(description='A Dance of Fire and Ice DLC获取工具')
+parser.add_argument('-c', action='store_true', help='使用命令行参数')
+parser.add_argument('-t', action='store_true', help='运行速度测试')
+parser.add_argument('-r', action='store_true', help='还原游戏文件')
+parser.add_argument('-d', action='store_true', help='启用游戏的debug模式')
+parser.add_argument('--v', type=str, help='游戏版本号')
+args = parser.parse_args()
+
+gameDebug = ""  # 是否启用游戏的debug模式
+
+if args.c:
+    logger.info("使用命令行参数参数自动运行，选择的游戏版本号为：" + args.v)
+
+if args.d:
+    gameDebug = ".debug"
+    logger.info("启用游戏的debug模式")
+
 
 init(autoreset=True)
 def colorprint(msg,color,end='\n') -> None:
@@ -184,94 +203,105 @@ def test_download_speed(url, duration=10):
         return None, None , str(e)
     return elapsed, speed_mbps , None
 
-if cfg['speedTest']:
+def speed_test():
+    logger.info("开始速度测试")
+    speedTestText=""""""# 速度测试结果
+    speedTestText += "[速度测试报告]\n"
+    sentry_logger.info('开始速度测试', version=APP_VERSION)
+    ip_data = {'ip': '未知'}  # 初始化IP数据
+    try:
+        ip_response = requests.get("https://ipinfo.io/json", timeout=10)
+        ip_data = ip_response.json()
+        logger.info(f"当前IP地址：{ip_data['ip']}")
+        sentry_logger.info('获取IP地址', version=APP_VERSION, ip=ip_data['ip'])
+        speedTestText += f"当前IP地址：{ip_data['ip']}\n"
+    except Exception as e:
+        logger.error(f"获取IP地址失败，错误信息：{e}")
+        sentry_logger.error('获取IP地址失败', version=APP_VERSION, error=str(e))
+        speedTestText += f"获取IP地址失败，错误信息：{e}\n"
+    sentry_logger.info('ip地址获取完成', version=APP_VERSION, ip=ip_data['ip'])
+    logger.info("开始进行服务器连接测试")
+    # 测试downloadTest中的各服务器，超时5秒
+    speedTestText += "\n服务器连通性测试开始\n=========================\n"
+    for i in range(len(cfg['downloadTest'])):
+        # name是服务器名称，url是连接测试地址
+        name = cfg['downloadTest'][i]['name']
+        url = cfg['downloadTest'][i]['url']
+        logger.info(f"正在测试服务器：{name}，地址：{url}")
+        sentry_logger.info('测试下载服务器', version=APP_VERSION, name=name, url=url, ip=ip_data['ip'])
+        speedTestText += f"\n测试服务器：{name}，地址：{url}：\n"
+        try:
+            response = requests.get(url, timeout=5)
+            if response.status_code == 200:
+                logger.info(f"服务器连接成功：{name}，地址：{url}")
+                sentry_logger.info('下载服务器连接成功', version=APP_VERSION, name=name, url=url, ip=ip_data['ip'])
+                speedTestText += f"服务器连接成功\n\n"
+            else:
+                logger.error(f"服务器连接失败：{name}，地址：{url}，状态码：{response.status_code}")
+                sentry_logger.error('下载服务器连接失败', version=APP_VERSION, name=name, url=url, status_code=response.status_code, ip=ip_data['ip'])
+                speedTestText += f"服务器连接失败，状态码：{response.status_code}\n\n"
+        except Exception as e:
+            logger.error(f"服务器连接失败：{name}，地址：{url}，错误信息：{e}")
+            sentry_logger.error('下载服务器连接异常', version=APP_VERSION, name=name, url=url, error=str(e), ip=ip_data['ip'])
+            speedTestText += f"服务器连接失败，错误信息：{e}\n\n"
+    speedTestText += "=========================\n服务器连通性测试结束\n"
+    logger.info("服务器连接测试完成")
+    sentry_logger.info('服务器连接测试完成', version=APP_VERSION)
+    # 测试下载速度 downloadSpeedTest
+    speedTestText += "\n下载速度测试开始\n=========================\n"
+    for i in range(len(cfg['downloadSpeedTest'])):
+        url = cfg['downloadSpeedTest'][i]['url']
+        name = cfg['downloadSpeedTest'][i]['name']
+        logger.info(f"正在测试下载速度：{name}，地址：{url}")
+        sentry_logger.info('测试下载速度', version=APP_VERSION, name=name, url=url, ip=ip_data['ip'])
+        speedTestText += f"\n测试下载速度：{name}，地址：{url}："
+        elapsed, speed_mbps, error = test_download_speed(url)
+        if error:
+            speedTestText += f"测试失败，错误信息：{error}\n"
+            sentry_logger.error('测速失败', version=APP_VERSION, name=name, url=url, ip=ip_data['ip'], error=error)
+        else:
+            speedTestText += f"测试成功，耗时：{elapsed:.2f}秒，速度：{speed_mbps:.2f} Mbps\n"
+            sentry_logger.info('测速成功', version=APP_VERSION, name=name, url=url, ip=ip_data['ip'], elapsed=str(elapsed), speed_mbps=str(speed_mbps))
+    speedTestText += "=========================\n下载速度测试结束\n"
+    logger.info("下载速度测试完成")
+    sentry_logger.info('下载速度测试完成', version=APP_VERSION, ip=ip_data['ip'], speedTestText=speedTestText)
+    print(speedTestText)
+
+if cfg['speedTest'] and not args.c:
     colorprint("注意：我们需要收集各地区的下载服务器连接情况，邀请你进行速度测试\n速度测试将收集你的ip和测试报告，最多需要2分钟并消耗最多1GB流量\n输入y并回车开始测试，直接回车跳过测试",color='2')
     input_str = input("是否开始速度测试？(y/n): ").strip().lower()
-    speedTestText=""""""# 速度测试结果
     if input_str == 'y':
-        logger.info("开始速度测试")
-        speedTestText += "[速度测试报告]\n"
-        sentry_logger.info('开始速度测试', version=APP_VERSION)
-        ip_data = {'ip': '未知'}  # 初始化IP数据
-        try:
-            ip_response = requests.get("https://ipinfo.io/json", timeout=10)
-            ip_data = ip_response.json()
-            logger.info(f"当前IP地址：{ip_data['ip']}")
-            sentry_logger.info('获取IP地址', version=APP_VERSION, ip=ip_data['ip'])
-            speedTestText += f"当前IP地址：{ip_data['ip']}\n"
-        except Exception as e:
-            logger.error(f"获取IP地址失败，错误信息：{e}")
-            sentry_logger.error('获取IP地址失败', version=APP_VERSION, error=str(e))
-            speedTestText += f"获取IP地址失败，错误信息：{e}\n"
-        sentry_logger.info('ip地址获取完成', version=APP_VERSION, ip=ip_data['ip'])
-        logger.info("开始进行服务器连接测试")
-        # 测试downloadTest中的各服务器，超时5秒
-        speedTestText += "\n服务器连通性测试开始\n=========================\n"
-        for i in range(len(cfg['downloadTest'])):
-            # name是服务器名称，url是连接测试地址
-            name = cfg['downloadTest'][i]['name']
-            url = cfg['downloadTest'][i]['url']
-            logger.info(f"正在测试服务器：{name}，地址：{url}")
-            sentry_logger.info('测试下载服务器', version=APP_VERSION, name=name, url=url, ip=ip_data['ip'])
-            speedTestText += f"\n测试服务器：{name}，地址：{url}：\n"
-            try:
-                response = requests.get(url, timeout=5)
-                if response.status_code == 200:
-                    logger.info(f"服务器连接成功：{name}，地址：{url}")
-                    sentry_logger.info('下载服务器连接成功', version=APP_VERSION, name=name, url=url, ip=ip_data['ip'])
-                    speedTestText += f"服务器连接成功\n\n"
-                else:
-                    logger.error(f"服务器连接失败：{name}，地址：{url}，状态码：{response.status_code}")
-                    sentry_logger.error('下载服务器连接失败', version=APP_VERSION, name=name, url=url, status_code=response.status_code, ip=ip_data['ip'])
-                    speedTestText += f"服务器连接失败，状态码：{response.status_code}\n\n"
-            except Exception as e:
-                logger.error(f"服务器连接失败：{name}，地址：{url}，错误信息：{e}")
-                sentry_logger.error('下载服务器连接异常', version=APP_VERSION, name=name, url=url, error=str(e), ip=ip_data['ip'])
-                speedTestText += f"服务器连接失败，错误信息：{e}\n\n"
-        speedTestText += "=========================\n服务器连通性测试结束\n"
-        logger.info("服务器连接测试完成")
-        sentry_logger.info('服务器连接测试完成', version=APP_VERSION)
-        # 测试下载速度 downloadSpeedTest
-        speedTestText += "\n下载速度测试开始\n=========================\n"
-        for i in range(len(cfg['downloadSpeedTest'])):
-            url = cfg['downloadSpeedTest'][i]['url']
-            name = cfg['downloadSpeedTest'][i]['name']
-            logger.info(f"正在测试下载速度：{name}，地址：{url}")
-            sentry_logger.info('测试下载速度', version=APP_VERSION, name=name, url=url, ip=ip_data['ip'])
-            speedTestText += f"\n测试下载速度：{name}，地址：{url}："
-            elapsed, speed_mbps, error = test_download_speed(url)
-            if error:
-                speedTestText += f"测试失败，错误信息：{error}\n"
-                sentry_logger.error('测速失败', version=APP_VERSION, name=name, url=url, ip=ip_data['ip'], error=error)
-            else:
-                speedTestText += f"测试成功，耗时：{elapsed:.2f}秒，速度：{speed_mbps:.2f} Mbps\n"
-                sentry_logger.info('测速成功', version=APP_VERSION, name=name, url=url, ip=ip_data['ip'], elapsed=str(elapsed), speed_mbps=str(speed_mbps))
-        speedTestText += "=========================\n下载速度测试结束\n"
-        logger.info("下载速度测试完成")
-        sentry_logger.info('下载速度测试完成', version=APP_VERSION, ip=ip_data['ip'], speedTestText=speedTestText)
-        print(speedTestText)
+        speed_test()
+if cfg['speedTest'] and args.t:
+    logger.info("命令行参数触发了速度测试")
+    speed_test()
 
 colorprint("以下是支持的游戏版本：",color='5')
 for i in range(len(cfg['version'])):
     colorprint(str(i)+" ",color='2',end='')
     colorprint(" "+str(cfg['version'][i]),color='5')
     
-print()
-colorprint("请输入你已安装的游戏版本的编号：",color='5')
+if not args.c:
+    print()
+    colorprint("请输入你已安装的游戏版本的编号：",color='5')
+    v=input()
+    while True:
+        if v.isdigit() and int(v) in range(len(cfg['version'])): # 判断输入是否为数字且在范围内
+            break
+        else:
+            colorprint("输入错误，请重新输入：",color='1')
+            print("提示：编号是前面版本号列表的绿底数字，根据你的游戏版本输入对应的编号，编号从0开始")
+            v = input()
 
-v=input()
-while True:
-    if v.isdigit() and int(v) in range(len(cfg['version'])): # 判断输入是否为数字且在范围内
-        break
-    else:
-        colorprint("输入错误，请重新输入：",color='1')
-        print("提示：编号是前面版本号列表的绿底数字，根据你的游戏版本输入对应的编号，编号从0开始")
-        v = input()
-
-colorprint(f"确定你的游戏版本是{cfg['version'][int(v)]}吗？\n选择错误会导致游戏无法启动\n请提前关闭游戏\n回车键继续",color='4')
-input()
-vname = cfg['version'][int(v)]# 版本号
-
+    colorprint(f"确定你的游戏版本是{cfg['version'][int(v)]}吗？\n选择错误会导致游戏无法启动\n请提前关闭游戏\n回车键继续",color='4')
+    input()
+    vname = cfg['version'][int(v)]# 版本号
+else:
+    logger.info(f"命令行参数已指定游戏版本为：{args.v}")
+    vname= args.v
+    # 获取版本号在cfg['version']中的索引
+    v = cfg['version'].index(vname) if vname in cfg['version'] else None
+    
 sentry_logger.info('已确认游戏版本', version=APP_VERSION,vname=vname)
 
 # 备份\A Dance of Fire and Ice_Data\Managed\Assembly-CSharp.dll
@@ -292,53 +322,70 @@ except FileExistsError:
     
 sentry_logger.info('下载服务器列表', version=APP_VERSION, downloadServer=cfg['downloadServer'])
     
-# 选择下载服务器
-for i in range(len(cfg['downloadServer'])):
-    # 获取服务器地址/test.json
-    url = cfg['downloadServer'][i]+"/test.json"
-    sentry_logger.info('测试下载服务器', version=APP_VERSION, url=url,vname=vname)
-    try:
-        response = requests.get(url, timeout=5)
-        if response.status_code == 200:
-            logger.info(f"选择下载服务器：{cfg['downloadServer'][i]}")
-            downserver = cfg['downloadServer'][i]
-            sentry_logger.info('选择下载服务器成功', version=APP_VERSION, downserver=downserver)
-            break
-        else:
-            logger.error(f"下载服务器连接失败：{cfg['downloadServer'][i]}[{response.status_code}]")
-            sentry_logger.error('下载服务器异常', version=APP_VERSION, url=url, status_code=response.status_code)
-    except Exception as e:
-        logger.error(f"下载服务器连接失败：{cfg['downloadServer'][i]}，错误信息：{e}")
-        sentry_logger.error('下载服务器连接失败', version=APP_VERSION, url=url, error=str(e))
+if args.r:
+    # 还原游戏文件：1.检查是否存在备份文件，2.如果存在则删除Assembly-CSharp.dll再将备份文件重命名为Assembly-CSharp.dll
+    if os.path.exists("A Dance of Fire and Ice_Data/Managed/Assembly-CSharp.dll.bak"):
+        logger.info("还原游戏文件")
+        try:
+            os.remove("A Dance of Fire and Ice_Data/Managed/Assembly-CSharp.dll")
+            os.rename("A Dance of Fire and Ice_Data/Managed/Assembly-CSharp.dll.bak", "A Dance of Fire and Ice_Data/Managed/Assembly-CSharp.dll")
+            logger.info("还原游戏文件成功")
+            sentry_logger.info('还原游戏文件成功', version=APP_VERSION)
+        except Exception as e:
+            logger.error(f"还原游戏文件失败，错误信息：{e}")
+            sentry_logger.error('还原游戏文件失败', version=APP_VERSION, error=str(e))
+    else:
+        logger.error("还原游戏文件失败，未找到备份文件")
+        sentry_logger.error('还原游戏文件失败', version=APP_VERSION, error='未找到备份文件')
 
-
-logger.info("开始下载游戏文件")
-
-sentry_logger.info('开始下载游戏文件', version=APP_VERSION, downserver=downserver,file=downserver+"/DLL/"+"Assembly-CSharp.dll"+"."+cfg['version'][int(v)])
-download_file(downserver+"/DLL/"+"Assembly-CSharp.dll"+"."+cfg['version'][int(v)], "A Dance of Fire and Ice_Data/Managed/Assembly-CSharp.dll")
-
-#检查dlc文件夹是否存在
-if vname=='v2.8.1':
-    # 2.8.1版本的dlc路径是NeoCosmos/StandaloneWindows64
-    if not os.path.exists("NeoCosmos/StandaloneWindows64"):
-        os.makedirs("NeoCosmos/StandaloneWindows64", exist_ok=True)
-        logger.info("创建dlc文件夹成功")
 else:
-    if not os.path.exists(cfg[vname]['dlcpath']):
-        os.mkdir(cfg[vname]['dlcpath'])
-        logger.info("创建dlc文件夹成功") 
+    # 选择下载服务器
+    for i in range(len(cfg['downloadServer'])):
+        # 获取服务器地址/test.json
+        url = cfg['downloadServer'][i]+"/test.json"
+        sentry_logger.info('测试下载服务器', version=APP_VERSION, url=url,vname=vname)
+        try:
+            response = requests.get(url, timeout=5)
+            if response.status_code == 200:
+                logger.info(f"选择下载服务器：{cfg['downloadServer'][i]}")
+                downserver = cfg['downloadServer'][i]
+                sentry_logger.info('选择下载服务器成功', version=APP_VERSION, downserver=downserver)
+                break
+            else:
+                logger.error(f"下载服务器连接失败：{cfg['downloadServer'][i]}[{response.status_code}]")
+                sentry_logger.error('下载服务器异常', version=APP_VERSION, url=url, status_code=response.status_code)
+        except Exception as e:
+            logger.error(f"下载服务器连接失败：{cfg['downloadServer'][i]}，错误信息：{e}")
+            sentry_logger.error('下载服务器连接失败', version=APP_VERSION, url=url, error=str(e))
+
+
+    logger.info("开始下载游戏文件")
+
+    sentry_logger.info('开始下载游戏文件', version=APP_VERSION, downserver=downserver,file=downserver+"/DLL/"+"Assembly-CSharp.dll"+"."+cfg['version'][int(v)])
+    download_file(downserver+"/DLL/"+"Assembly-CSharp.dll"+"."+cfg['version'][int(v)]+gameDebug, "A Dance of Fire and Ice_Data/Managed/Assembly-CSharp.dll")
+
+    #检查dlc文件夹是否存在
+    if vname=='v2.8.1':
+        # 2.8.1版本的dlc路径是NeoCosmos/StandaloneWindows64
+        if not os.path.exists("NeoCosmos/StandaloneWindows64"):
+            os.makedirs("NeoCosmos/StandaloneWindows64", exist_ok=True)
+            logger.info("创建dlc文件夹成功")
     else:
-        logger.info("dlc文件夹已存在，跳过创建")
-# 继续检查dlc文件夹里面是否有dlc文件
-for i in cfg[vname]['dlcFiles']:
-    if os.path.exists(cfg[vname]['dlcpath']+"/"+i):
-        logger.info(f"dlc文件夹内已存在{i}，跳过下载")
-    else:
-        logger.info(f"dlc文件夹内不存在{i}，开始下载")
-        print(downserver+i)
-        sentry_logger.info('下载dlc文件', version=APP_VERSION, url=downserver+i)
-        download_file(downserver+i, cfg[vname]['dlcpath']+"/"+i)
-        
-logger.info("处理完成，可以启动游戏使用dlc了")
+        if not os.path.exists(cfg[vname]['dlcpath']):
+            os.mkdir(cfg[vname]['dlcpath'])
+            logger.info("创建dlc文件夹成功") 
+        else:
+            logger.info("dlc文件夹已存在，跳过创建")
+    # 继续检查dlc文件夹里面是否有dlc文件
+    for i in cfg[vname]['dlcFiles']:
+        if os.path.exists(cfg[vname]['dlcpath']+"/"+i):
+            logger.info(f"dlc文件夹内已存在{i}，跳过下载")
+        else:
+            logger.info(f"dlc文件夹内不存在{i}，开始下载")
+            print(downserver+i)
+            sentry_logger.info('下载dlc文件', version=APP_VERSION, url=downserver+i)
+            download_file(downserver+i, cfg[vname]['dlcpath']+"/"+i)
+            
+    logger.info("处理完成，可以启动游戏使用dlc了")
 sentry_logger.info('处理完成', version=APP_VERSION, vname=vname)
 input("按回车键退出")

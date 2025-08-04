@@ -1,0 +1,16 @@
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\bin\Release\net8.0-windows\win-x64\adofai-dlc-get-gui.exe
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\bin\Release\net8.0-windows\win-x64\adofai-dlc-get-gui.deps.json
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\bin\Release\net8.0-windows\win-x64\adofai-dlc-get-gui.runtimeconfig.json
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\bin\Release\net8.0-windows\win-x64\adofai-dlc-get-gui.dll
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\bin\Release\net8.0-windows\win-x64\adofai-dlc-get-gui.pdb
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\obj\Release\net8.0-windows\win-x64\adofai_dlc_get_gui.Form1.resources
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\obj\Release\net8.0-windows\win-x64\adofai-dlc-get-gui.csproj.GenerateResource.cache
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\obj\Release\net8.0-windows\win-x64\adofai-dlc-get-gui.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\obj\Release\net8.0-windows\win-x64\adofai-dlc-get-gui.AssemblyInfoInputs.cache
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\obj\Release\net8.0-windows\win-x64\adofai-dlc-get-gui.AssemblyInfo.cs
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\obj\Release\net8.0-windows\win-x64\adofai-dlc-get-gui.csproj.CoreCompileInputs.cache
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\obj\Release\net8.0-windows\win-x64\adofai-dlc-get-gui.dll
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\obj\Release\net8.0-windows\win-x64\refint\adofai-dlc-get-gui.dll
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\obj\Release\net8.0-windows\win-x64\adofai-dlc-get-gui.pdb
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\obj\Release\net8.0-windows\win-x64\adofai-dlc-get-gui.genruntimeconfig.cache
+C:\Users\fanbo\source\repos\adofai-dlc-get-gui\adofai-dlc-get-gui\obj\Release\net8.0-windows\win-x64\ref\adofai-dlc-get-gui.dll
