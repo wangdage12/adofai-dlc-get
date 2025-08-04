@@ -25,8 +25,8 @@ jobs:
 
     # 恢复依赖（指定项目路径）
     - name: Restore dependencies
-      run: dotnet restore Settings/Settings/Settings.csproj
+      run: dotnet restore adofai-dlc-get-gui/adofai-dlc-get-gui/adofai-dlc-get-gui.csproj
 
     # 编译项目（指定项目路径）
     - name: Build project
-      run: dotnet build Settings/Settings/Settings.csproj --configuration Release --no-restore
+      run: dotnet build adofai-dlc-get-gui/adofai-dlc-get-gui/adofai-dlc-get-gui.csproj --configuration Release --no-restore
