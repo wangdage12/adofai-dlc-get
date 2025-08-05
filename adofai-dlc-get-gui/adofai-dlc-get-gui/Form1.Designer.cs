@@ -1,4 +1,4 @@
-﻿namespace adofai_dlc_get_gui
+namespace adofai_dlc_get_gui
 {
     partial class Form1
     {
@@ -10,7 +10,10 @@
         /// <summary>
         ///  Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <summary>
+        /// Releases the resources used by the form.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -25,6 +28,8 @@
         /// <summary>
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
+        /// <summary>
+        /// Initializes and configures all UI components and layout for the main form of the adofai DLC acquisition tool.
         /// </summary>
         private void InitializeComponent()
         {

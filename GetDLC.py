@@ -55,12 +55,13 @@ if args.d:
 
 init(autoreset=True)
 def colorprint(msg,color,end='\n') -> None:
-    """打印带颜色的文本
-
-    Args:
-        msg (str): 要打印的消息
-        color (str): 颜色编号（1: 红色, 2: 绿色, 3: 灰色, 4: 黄色, 5: 蓝色）
-        end (str, optional): 结束符。 Defaults to '\n'.
+    """
+    Prints a message to the console in the specified color.
+    
+    Parameters:
+        msg (str): The message to print.
+        color (str): Color code ('1' for red, '2' for green, '3' for gray, '4' for yellow, '5' for blue).
+        end (str, optional): String appended after the message. Defaults to a newline.
     """
     if color=='1':
         print(Fore.RED + msg, end=end)
@@ -168,16 +169,17 @@ if not os.path.exists(GAME_FILE):
     sys.exit(1)
 
 def test_download_speed(url, duration=10):
-    """测试下载速度
-
-    Args:
-        url (str): 下载链接
-        duration (int, optional): 测试持续时间（秒）。 Defaults to 10.
-
+    """
+    Measure the download speed from a given URL over a specified duration.
+    
+    Parameters:
+        url (str): The URL to download from for speed testing.
+        duration (int, optional): Duration of the test in seconds. Defaults to 10.
+    
     Returns:
-       elapsed (float): 下载耗时（秒）
-       speed_mbps (float): 下载速度（Mbps）
-       error (str, optional): 错误信息
+        elapsed (float or None): Time spent downloading in seconds, or None if an error occurred.
+        speed_mbps (float or None): Calculated download speed in Mbps, or None if an error occurred.
+        error (str or None): Error message if the test failed, otherwise None.
     """
     try:
         headers = {'Range': 'bytes=0-'}
@@ -205,6 +207,11 @@ def test_download_speed(url, duration=10):
     return elapsed, speed_mbps , None
 
 def speed_test():
+    """
+    Performs connectivity and download speed tests for configured servers and displays a detailed report.
+    
+    This function retrieves the current public IP address, tests connectivity to each server listed in the configuration, measures download speeds from specified test URLs, logs results, and prints a comprehensive speed test report to the console.
+    """
     logger.info("开始速度测试")
     speedTestText=""""""# 速度测试结果
     speedTestText += "[速度测试报告]\n"
@@ -270,6 +277,14 @@ def speed_test():
 
 def Test_download_server():
     # 选择下载服务器
+    """
+    Select and return the first available download server from the configuration.
+    
+    Iterates through the list of configured download servers, testing each by requesting a test JSON file. Returns the URL of the first server that responds successfully, or None if all servers are unreachable.
+    
+    Returns:
+        str or None: The URL of the first reachable download server, or None if none are available.
+    """
     for i in range(len(cfg['downloadServer'])):
         # 获取服务器地址/test.json
         url = cfg['downloadServer'][i]+"/test.json"

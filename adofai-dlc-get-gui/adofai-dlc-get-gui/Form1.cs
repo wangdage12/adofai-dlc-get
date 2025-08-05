@@ -6,37 +6,45 @@ namespace adofai_dlc_get_gui
     public partial class Form1 : Form
     {
 
-        // comboBox1:ÓÎÏ·°æ±¾Ñ¡Ôñ
-        // checkBox1:ÊÇ·ñÆôÓÃDLC£¬Ä¬ÈÏ¿ª£¬Ô¤Áô
-        // checkBox2:ÊÇ·ñÆôÓÃÓÎÏ·µÄdebugÄ£Ê½
-        // checkBox3:²âÊÔĞÂÏÂÔØ·şÎñÆ÷ËÙ¶È
-        // button3:»Ö¸´ÓÎÏ·ÎÄ¼ş
-        // button1:¿ªÊ¼»ñÈ¡DLC
-        // label8:Ã»Ñ¡ÔñÓÎÏ·°æ±¾Ê±ÏÔÊ¾µÄ´íÎóĞÅÏ¢£¬Ä¬ÈÏÒş²Ø£¬ĞèÒªµÄÊ±ºòÏÔÊ¾
+        // comboBox1:æ¸¸æˆç‰ˆæœ¬é€‰æ‹©
+        // checkBox1:æ˜¯å¦å¯ç”¨DLCï¼Œé»˜è®¤å¼€ï¼Œé¢„ç•™
+        // checkBox2:æ˜¯å¦å¯ç”¨æ¸¸æˆçš„debugæ¨¡å¼
+        // checkBox3:æµ‹è¯•æ–°ä¸‹è½½æœåŠ¡å™¨é€Ÿåº¦
+        // button3:æ¢å¤æ¸¸æˆæ–‡ä»¶
+        // button1:å¼€å§‹è·å–DLC
+        /// <summary>
+        /// Initializes the main form for the DLC management tool, setting a fixed window size and default control states.
+        /// </summary>
 
         public Form1()
         {
-            // ´°¿Ú´óĞ¡²»¿É¸ü¸Ä
+            // çª—å£å¤§å°ä¸å¯æ›´æ”¹
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
             InitializeComponent();
 
-            // checkBox1Ä¬ÈÏÊÇÑ¡ÖĞ×´Ì¬
+            // checkBox1é»˜è®¤æ˜¯é€‰ä¸­çŠ¶æ€
             this.checkBox1.Checked = true;
         }
 
 
+        /// <summary>
+        /// Closes the application when the exit button is clicked.
+        /// </summary>
         private void button2_Click(object sender, EventArgs e)
         {
-            // ÍË³ö³ÌĞò
+            // é€€å‡ºç¨‹åº
             Application.Exit();
         }
 
+        /// <summary>
+        /// Opens the official game store page in the default web browser when the link label is clicked.
+        /// </summary>
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // ´ò¿ªÓÎÏ·¹ÙÍø
+            // æ‰“å¼€æ¸¸æˆå®˜ç½‘
             System.Diagnostics.Process.Start(new ProcessStartInfo
             {
                 FileName = "https://store.steampowered.com/app/977950/_A_Dance_of_Fire_and_Ice/",
@@ -44,6 +52,9 @@ namespace adofai_dlc_get_gui
             });
         }
 
+        /// <summary>
+        /// Opens the DLC tool's GitHub repository page in the default web browser.
+        /// </summary>
         private void button4_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(new ProcessStartInfo
@@ -53,33 +64,36 @@ namespace adofai_dlc_get_gui
             });
         }
 
+        /// <summary>
+        /// Handles the "Start DLC acquisition" button click by validating the selected game version, prompting for user confirmation, and launching the external DLC tool with appropriate command-line arguments based on user selections. Closes the application after starting the process.
+        /// </summary>
         private void button1_Click(object sender, EventArgs e)
         {
             //usage: GetDLC.exe [-h] [-c] [-t] [-r] [-d] [--v V]
 
-            //A Dance of Fire and Ice DLC»ñÈ¡¹¤¾ß
+            //A Dance of Fire and Ice DLCè·å–å·¥å…·
 
             //options:
             //  -h, --help  show this help message and exit
-            //  -c          Ê¹ÓÃÃüÁîĞĞ²ÎÊı
-            //  -t          ÔËĞĞËÙ¶È²âÊÔ
-            //  -r          »¹Ô­ÓÎÏ·ÎÄ¼ş
-            //  -d          ÆôÓÃÓÎÏ·µÄdebugÄ£Ê½
-            //  --v V       ÓÎÏ·°æ±¾ºÅ
+            //  -c          ä½¿ç”¨å‘½ä»¤è¡Œå‚æ•°
+            //  -t          è¿è¡Œé€Ÿåº¦æµ‹è¯•
+            //  -r          è¿˜åŸæ¸¸æˆæ–‡ä»¶
+            //  -d          å¯ç”¨æ¸¸æˆçš„debugæ¨¡å¼
+            //  --v V       æ¸¸æˆç‰ˆæœ¬å·
 
-            // ¼ì²éÊÇ·ñÑ¡ÔñÁËÓÎÏ·°æ±¾
+            // æ£€æŸ¥æ˜¯å¦é€‰æ‹©äº†æ¸¸æˆç‰ˆæœ¬
             if (comboBox1.SelectedItem == null)
             {
                 label8.Visible = true;
                 return;
             }
 
-            DialogResult result = MessageBox.Show("È·¶¨ÓÎÏ·°æ±¾ÊÇ" + comboBox1.SelectedItem.ToString() + "Âğ£¿\nÑ¡Ôñ´íÎó»áµ¼ÖÂÓÎÏ·ÎŞ·¨Æô¶¯\nÈç²»È·¶¨Çë´ò¿ªÓÎÏ·£¬°´esc²é¿´×óÏÂ½Ç°æ±¾ºÅ\nÇëÌáÇ°¹Ø±ÕÓÎÏ·\n¿ªÊ¼ºó»á´ò¿ªÒ»¸öÃüÁîĞĞ´°¿Ú£¬Çë×ªµ½¸Ã´°¿Ú²Ù×÷", "È·ÈÏÓÎÏ·°æ±¾", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("ç¡®å®šæ¸¸æˆç‰ˆæœ¬æ˜¯" + comboBox1.SelectedItem.ToString() + "å—ï¼Ÿ\né€‰æ‹©é”™è¯¯ä¼šå¯¼è‡´æ¸¸æˆæ— æ³•å¯åŠ¨\nå¦‚ä¸ç¡®å®šè¯·æ‰“å¼€æ¸¸æˆï¼ŒæŒ‰escæŸ¥çœ‹å·¦ä¸‹è§’ç‰ˆæœ¬å·\nè¯·æå‰å…³é—­æ¸¸æˆ\nå¼€å§‹åä¼šæ‰“å¼€ä¸€ä¸ªå‘½ä»¤è¡Œçª—å£ï¼Œè¯·è½¬åˆ°è¯¥çª—å£æ“ä½œ", "ç¡®è®¤æ¸¸æˆç‰ˆæœ¬", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.No)
             {
                 return;
             }
-            // »ñÈ¡²ÎÊı²¢Ö´ĞĞÃüÁîĞĞ
+            // è·å–å‚æ•°å¹¶æ‰§è¡Œå‘½ä»¤è¡Œ
             string args = "";
 
             args += "-c ";
@@ -92,10 +106,10 @@ namespace adofai_dlc_get_gui
             {
                 args += "-t ";
             }
-            // Ìí¼ÓÓÎÏ·°æ±¾ºÅ
+            // æ·»åŠ æ¸¸æˆç‰ˆæœ¬å·
             args += "--v " + comboBox1.SelectedItem.ToString();
 
-            // Ö´ĞĞÃüÁîĞĞ
+            // æ‰§è¡Œå‘½ä»¤è¡Œ
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
                 FileName = "GetDLC.exe",
@@ -112,32 +126,41 @@ namespace adofai_dlc_get_gui
             };
             process.Start();
 
-            //¹Ø±Õ³ÌĞò
+            //å…³é—­ç¨‹åº
             Application.Exit();
 
         }
 
+        /// <summary>
+        /// Hides the error label when the selected game version in the combo box changes.
+        /// </summary>
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             label8.Visible = false;
         }
 
+        /// <summary>
+        /// Handles the restore operation for game files when the corresponding button is clicked.
+        /// </summary>
+        /// <remarks>
+        /// Validates that a game version is selected, prompts the user for confirmation, and then launches the external "GetDLC.exe" process with arguments to restore original game files for the selected version. The application exits after starting the process.
+        /// </remarks>
         private void button3_Click(object sender, EventArgs e)
         {
-            // »¹Ô­ÓÎÏ·ÎÄ¼ş
-            // ¼ì²éÊÇ·ñÑ¡ÔñÁËÓÎÏ·°æ±¾
+            // è¿˜åŸæ¸¸æˆæ–‡ä»¶
+            // æ£€æŸ¥æ˜¯å¦é€‰æ‹©äº†æ¸¸æˆç‰ˆæœ¬
             if (comboBox1.SelectedItem == null)
             {
                 label8.Visible = true;
                 return;
             }
 
-            DialogResult result = MessageBox.Show("¸Ã¹¦ÄÜ½«»¹Ô­ÓÎÏ·ÎÄ¼ş£¬ÊÊÓÃÓÚÔÚĞŞ¸ÄÒÔºóÎŞ·¨Æô¶¯ÓÎÏ·µÄÇé¿ö\n²»»áÉ¾³ıÒÑÏÂÔØµÄDLCÎÄ¼ş\nÈ·¶¨¿ªÊ¼Âğ£¿", "È·ÈÏ²Ù×÷", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("è¯¥åŠŸèƒ½å°†è¿˜åŸæ¸¸æˆæ–‡ä»¶ï¼Œé€‚ç”¨äºåœ¨ä¿®æ”¹ä»¥åæ— æ³•å¯åŠ¨æ¸¸æˆçš„æƒ…å†µ\nä¸ä¼šåˆ é™¤å·²ä¸‹è½½çš„DLCæ–‡ä»¶\nç¡®å®šå¼€å§‹å—ï¼Ÿ", "ç¡®è®¤æ“ä½œ", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.No)
             {
                 return;
             }
-            // »ñÈ¡²ÎÊı²¢Ö´ĞĞÃüÁîĞĞ
+            // è·å–å‚æ•°å¹¶æ‰§è¡Œå‘½ä»¤è¡Œ
             string args = "";
 
             args += "-c ";
@@ -151,13 +174,13 @@ namespace adofai_dlc_get_gui
                 args += "-t ";
             }
 
-            // »¹Ô­ÓÎÏ·ÎÄ¼ş
+            // è¿˜åŸæ¸¸æˆæ–‡ä»¶
             args += "-r ";
 
-            // Ìí¼ÓÓÎÏ·°æ±¾ºÅ
+            // æ·»åŠ æ¸¸æˆç‰ˆæœ¬å·
             args += "--v " + comboBox1.SelectedItem.ToString();
 
-            // Ö´ĞĞÃüÁîĞĞ
+            // æ‰§è¡Œå‘½ä»¤è¡Œ
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
                 FileName = "GetDLC.exe",
@@ -174,7 +197,7 @@ namespace adofai_dlc_get_gui
             };
             process.Start();
 
-            //¹Ø±Õ³ÌĞò
+            //å…³é—­ç¨‹åº
             Application.Exit();
         }
     }

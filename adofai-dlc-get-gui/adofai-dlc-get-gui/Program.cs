@@ -4,6 +4,8 @@ namespace adofai_dlc_get_gui
     {
         /// <summary>
         ///  The main entry point for the application.
+        /// <summary>
+        /// Initializes application configuration and starts the main Windows Forms application loop.
         /// </summary>
         [STAThread]
         static void Main()
