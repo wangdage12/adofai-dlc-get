@@ -27,6 +27,7 @@ coloredlogs.install(level='DEBUG', logger=logger)
 
 APP_VERSION = '2.0.0'  # 应用版本
 GAME_FILE = 'A Dance of Fire and Ice.exe'  # 游戏主程序文件名
+GUI_FILE = 'adofai-dlc-get-gui.exe'  # GUI程序文件名
 
 logger.info(f"工具版本：{APP_VERSION}")
 
@@ -267,6 +268,27 @@ def speed_test():
     sentry_logger.info('下载速度测试完成', version=APP_VERSION, ip=ip_data['ip'], speedTestText=speedTestText)
     print(speedTestText)
 
+def Test_download_server():
+    # 选择下载服务器
+    for i in range(len(cfg['downloadServer'])):
+        # 获取服务器地址/test.json
+        url = cfg['downloadServer'][i]+"/test.json"
+        sentry_logger.info('测试下载服务器', version=APP_VERSION, url=url)
+        try:
+            response = requests.get(url, timeout=5)
+            if response.status_code == 200:
+                logger.info(f"选择下载服务器：{cfg['downloadServer'][i]}")
+                _downserver = cfg['downloadServer'][i]
+                sentry_logger.info('选择下载服务器成功', version=APP_VERSION, downserver=_downserver)
+                return _downserver
+            else:
+                logger.error(f"下载服务器连接失败：{cfg['downloadServer'][i]}[{response.status_code}]")
+                sentry_logger.error('下载服务器异常', version=APP_VERSION, url=url, status_code=response.status_code)
+        except Exception as e:
+            logger.error(f"下载服务器连接失败：{cfg['downloadServer'][i]}，错误信息：{e}")
+            sentry_logger.error('下载服务器连接失败', version=APP_VERSION, url=url, error=str(e))
+    return None
+
 if cfg['speedTest'] and not args.c:
     colorprint("注意：我们需要收集各地区的下载服务器连接情况，邀请你进行速度测试\n速度测试将收集你的ip和测试报告，最多需要2分钟并消耗最多1GB流量\n输入y并回车开始测试，直接回车跳过测试",color='2')
     input_str = input("是否开始速度测试？(y/n): ").strip().lower()
@@ -275,6 +297,25 @@ if cfg['speedTest'] and not args.c:
 if cfg['speedTest'] and args.t:
     logger.info("命令行参数触发了速度测试")
     speed_test()
+    
+if not args.c:
+    # 检查是否存在GUI程序
+    if os.path.exists(GUI_FILE):
+        logger.info(f"检测到GUI程序，建议使用GUI程序{GUI_FILE}运行本工具")
+    else:
+        colorprint(f"提示：新推出图形界面工具，更方便功能更多，输入y安装，直接回车取消", color='2')
+        input_str = input("是否安装GUI程序？(y/n): ").strip().lower()
+        if input_str == 'y':
+            logger.info("安装GUI程序中")
+            logger.info("正在下载GUI程序，请稍等...")
+            sentry_logger.info('下载GUI程序', version=APP_VERSION)
+            downserver = Test_download_server()
+            download_file(downserver+GUI_FILE, GUI_FILE)
+            colorprint(f"GUI程序下载完成，文件名为{GUI_FILE}，请双击运行\n注意：该工具只是个ui界面，请勿删除安装工具GetDLC.exe", color='5')
+            input("按回车键退出")
+            sys.exit(0)
+        else:
+            logger.info("不安装GUI程序")
 
 colorprint("以下是支持的游戏版本：",color='5')
 for i in range(len(cfg['version'])):
@@ -327,7 +368,10 @@ if args.r:
     if os.path.exists("A Dance of Fire and Ice_Data/Managed/Assembly-CSharp.dll.bak"):
         logger.info("还原游戏文件")
         try:
-            os.remove("A Dance of Fire and Ice_Data/Managed/Assembly-CSharp.dll")
+            try:
+                os.remove("A Dance of Fire and Ice_Data/Managed/Assembly-CSharp.dll")
+            except:
+                pass
             os.rename("A Dance of Fire and Ice_Data/Managed/Assembly-CSharp.dll.bak", "A Dance of Fire and Ice_Data/Managed/Assembly-CSharp.dll")
             logger.info("还原游戏文件成功")
             sentry_logger.info('还原游戏文件成功', version=APP_VERSION)
@@ -339,29 +383,11 @@ if args.r:
         sentry_logger.error('还原游戏文件失败', version=APP_VERSION, error='未找到备份文件')
 
 else:
-    # 选择下载服务器
-    for i in range(len(cfg['downloadServer'])):
-        # 获取服务器地址/test.json
-        url = cfg['downloadServer'][i]+"/test.json"
-        sentry_logger.info('测试下载服务器', version=APP_VERSION, url=url,vname=vname)
-        try:
-            response = requests.get(url, timeout=5)
-            if response.status_code == 200:
-                logger.info(f"选择下载服务器：{cfg['downloadServer'][i]}")
-                downserver = cfg['downloadServer'][i]
-                sentry_logger.info('选择下载服务器成功', version=APP_VERSION, downserver=downserver)
-                break
-            else:
-                logger.error(f"下载服务器连接失败：{cfg['downloadServer'][i]}[{response.status_code}]")
-                sentry_logger.error('下载服务器异常', version=APP_VERSION, url=url, status_code=response.status_code)
-        except Exception as e:
-            logger.error(f"下载服务器连接失败：{cfg['downloadServer'][i]}，错误信息：{e}")
-            sentry_logger.error('下载服务器连接失败', version=APP_VERSION, url=url, error=str(e))
-
-
+    downserver = Test_download_server()
+    
     logger.info("开始下载游戏文件")
 
-    sentry_logger.info('开始下载游戏文件', version=APP_VERSION, downserver=downserver,file=downserver+"/DLL/"+"Assembly-CSharp.dll"+"."+cfg['version'][int(v)])
+    sentry_logger.info('开始下载游戏文件', version=APP_VERSION, downserver=downserver,file=downserver+"/DLL/"+"Assembly-CSharp.dll"+"."+cfg['version'][int(v)]+gameDebug)
     download_file(downserver+"/DLL/"+"Assembly-CSharp.dll"+"."+cfg['version'][int(v)]+gameDebug, "A Dance of Fire and Ice_Data/Managed/Assembly-CSharp.dll")
 
     #检查dlc文件夹是否存在
