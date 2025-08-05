@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36310.24 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adofai-dlc-get-gui", "adofai-dlc-get-gui\adofai-dlc-get-gui.csproj", "{9556400F-3301-42D4-8D45-DCECB335131D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9556400F-3301-42D4-8D45-DCECB335131D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9556400F-3301-42D4-8D45-DCECB335131D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9556400F-3301-42D4-8D45-DCECB335131D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9556400F-3301-42D4-8D45-DCECB335131D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {37F2E4A6-7DAA-4E27-BE2B-622F9F23A61B}
+	EndGlobalSection
+EndGlobal
