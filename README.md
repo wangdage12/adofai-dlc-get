@@ -4,9 +4,22 @@
 > 本工具仅用来学习研究adofai中的dlc文件，使用该脚本下载的dlc文件仅共学习使用，作为其他用途使用的后果自负  
 > 我的博客中有关于该工具的贴子，可以在这里查看：http://server.wdg.cloudns.ch:8088/  
 
+> [!IMPORTANT]
+> 目前因为dlc文件版本低的问题导致2.9.5及以上的游戏无法进入官方dlc关卡，若你拥有最新的dlc文件（游戏目录下的`Bundles`文件夹），请帮忙提供，非常感谢
+
+> [!WARNING]
+> 请耐心等待对2.9.7版本的支持，勿使用2.9.5的安装选项  
+> 如果你急得不行，可以进入[ipv6服务器](http://server.wdg.cloudns.ch:8002/adofai/)，在这里找到新版dll并手动替换
+
 注意：你需要有游戏本体才能使用
 
 下载最新版本：前往[releases](https://github.com/wangdage12/adofai-dlc-get/releases)页面，下载最上面的`.exe`文件，然后查看[使用教程](https://www.bilibili.com/opus/1057497643524030472)
+
+> [!NOTE]
+> github上的releases内的打包标准：  
+> python脚本：AMD x64 单文件  
+> c# GUI工具：AMD x64 单文件 依赖框架  
+> 若需要其他架构请提issues
 
 运行打包好的exe：需要windows版本`>=windows 10`
 
