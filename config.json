@@ -1,5 +1,13 @@
 {
-  "version": ["v2.8.1", "v2.9.5"],
+  "version": ["v2.8.1", "v2.9.5", "v2.9.7"],
+  "v2.9.7": {
+    "dlcpath": "Bundles",
+    "dlcFiles": [
+      "64b0239cbb1b5026aca97cb135062056_unitybuiltinshaders.bundle",
+      "neocosmos_assets_all.bundle",
+      "neocosmos_scenes_all.bundle"
+    ]
+  },
   "v2.9.5": {
     "dlcpath": "Bundles",
     "dlcFiles": [
@@ -17,20 +25,22 @@
     ]
   },
   "downloadServer": [
-    "http://server.wdg.cloudns.ch:8002/adofai/",
-    "http://f1.wdg.cloudns.ch/adofai/",
-    "http://f3.wdg.cloudns.ch/adofai/",
-    "http://f4.wdg.cloudns.ch/adofai/"
+    "https://afilecdn.wdg.cloudns.ch/",
+    "http://server.wdg.cloudns.ch:8002/adofai/"
   ],
   "downloadTest": [
-    { "name": "自建ipv6服务器", "url": "http://server.wdg.cloudns.ch:8002/" }
+    { "name": "自建ipv6服务器", "url": "http://server.wdg.cloudns.ch:8002/" },
+    { "name": "CDN", "url": "https://afilecdn.wdg.cloudns.ch/" }
   ],
   "downloadSpeedTest": [
     {
       "name": "自建ipv6服务器",
       "url": "http://server.wdg.cloudns.ch:8002/adofai/neocosmos_scenes_all.bundle"
+    },{
+      "name": "CDN",
+      "url": "https://afilecdn.wdg.cloudns.ch/neocosmos_scenes_all.bundle"
     }
   ],
   "speedTest": true,
-  "msg": "\n2.0.0已发布，下载链接不变，或者通过以下链接下载：\nhttp://f4.wdg.cloudns.ch/GetDLC.exe\nhttp://server.wdg.cloudns.ch:8002/GetDLC.exe\n"
+  "msg": "\n2.1.0已发布，已支持2.9.7，通过以下链接下载：\nhttps://afilecdn.wdg.cloudns.ch/GetDLC.exe\nhttp://server.wdg.cloudns.ch:8002/GetDLC.exe\n"
 }
