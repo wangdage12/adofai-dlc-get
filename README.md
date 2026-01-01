@@ -7,11 +7,6 @@
 > [!IMPORTANT]
 > 目前因为dlc文件版本低的问题导致2.9.5及以上的游戏无法进入官方dlc关卡，若你拥有最新的dlc文件（游戏目录下的`Bundles`文件夹），请帮忙提供，非常感谢
 
-> [!WARNING]
-> 非常抱歉因为学业问题更新会比较慢，2.9.7版本的dlc文件夹和2.9.5是一样的，修改以后的dll也可以在ipv6服务器上获取，你可以直接按照该提示修改或者提交pr  
-> 请耐心等待对2.9.7版本的支持，勿使用2.9.5的安装选项  
-> 如果你急得不行，可以进入[ipv6服务器](http://server.wdg.cloudns.ch:8002/adofai/)，在这里找到新版dll并手动替换
-
 注意：你需要有游戏本体才能使用
 
 下载最新版本：前往[releases](https://github.com/wangdage12/adofai-dlc-get/releases)页面，下载最上面的`.exe`文件，然后查看[使用教程](https://www.bilibili.com/opus/1057497643524030472)
@@ -38,6 +33,7 @@
 
 > 注意:如果下载服务器失效,可以将域名前面的`f1`换为: `f3`或`f4`
 > 自建ipv6服务器，首选这个：http://server.wdg.cloudns.ch:8002/adofai/
+> 新CDN服务器：https://afilecdn.wdg.cloudns.ch/
 
 下载这几个文件：  
 http://f1.wdg.cloudns.ch/adofai/neocosmos_assets_all.bundle  
