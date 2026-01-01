@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 # 配置 coloredlogs
 coloredlogs.install(level='DEBUG', logger=logger)
 
-APP_VERSION = '2.0.0'  # 应用版本
+APP_VERSION = '2.1.0'  # 应用版本
 GAME_FILE = 'A Dance of Fire and Ice.exe'  # 游戏主程序文件名
 GUI_FILE = 'adofai-dlc-get-gui.exe'  # GUI程序文件名
 
@@ -97,10 +97,8 @@ def Wjson(json_file, data) -> None:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
 CONFIG_URLS = [
+    "https://afilecdn.wdg.cloudns.ch/config.json",
     "http://server.wdg.cloudns.ch:8002/adofai/config.json",
-    "http://f3.wdg.cloudns.ch/adofai/config.json",
-    "http://f1.wdg.cloudns.ch/adofai/config.json",
-    "http://f4.wdg.cloudns.ch/adofai/config.json",
 ]
 
 def read_config() -> dict:
